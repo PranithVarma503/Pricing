@@ -1,24 +1,61 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import React, { useState } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { PaymentPage } from "./pages/PaymentPage";
+import { OrderPage } from "./pages/OrderPage";
+import CameraPage from "./pages/CameraPage";
+import { Home } from "./pages/Home";
 
 function App() {
+  const [orderSummary, setOrderSummary] = useState({
+    plan: null,
+    cameras: [] 
+  });
+
+  const addPlanToOrder = (planIndex, tours, seats) => {
+    setOrderSummary((prevSummary) => ({
+      ...prevSummary,
+      plan: { planIndex, tours, seats }
+    }));
+  };
+
+  const addCameraToOrder = (camera) => {
+    setOrderSummary((prevSummary) => ({
+      ...prevSummary,
+      cameras: [...prevSummary.cameras, camera]
+    }));
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div>
+        <Home />
+        <Routes>
+          <Route
+            path="/pricing"
+            element={
+              <PaymentPage
+                addPlanToOrder={addPlanToOrder}
+                orderSum={orderSummary}
+              />
+            }
+          />
+          <Route
+            path="/cameras"
+            element={
+              <CameraPage
+                addCameraToOrder={addCameraToOrder}
+                orderSum={orderSummary}
+              />
+            }
+          />
+          <Route
+            path="/order"
+            element={<OrderPage orderSum={orderSummary} />}
+          />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
