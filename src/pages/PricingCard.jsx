@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "tailwindcss/tailwind.css";
 import { OrderSummary } from "../components/OrderSummary";
-import { ComparisonDetails } from "../components/comparison";
+import OptionsTab from "./OptionsTab";
+import NoCameraModal from "../components/NoCameraModal";
 
 export const pricingPlans = [
   {
     name: "Pro",
     basePrice: 19,
+    annualPrice: 189,
     extraSeatPrice: 19,
     toursOptions: [3, 5, 8, 10],
     seatsOptions: [1, 2, 3, 4],
@@ -25,6 +27,7 @@ export const pricingPlans = [
   {
     name: "Pro Plus",
     basePrice: 49,
+    annualPrice: 549,
     extraSeatPrice: 29,
     toursOptions: [10, 15, 20, 30],
     seatsOptions: [2, 3, 4, 5],
@@ -46,8 +49,9 @@ export const pricingPlans = [
   {
     name: "Business",
     basePrice: 197,
+    annualPrice: 2169,
     extraSeatPrice: 29,
-    toursOptions: [30, 50, 100, 150],   
+    toursOptions: [30, 50, 100, 150],
     seatsOptions: [5, 6, 7, 8],
     extraTourPrice: 1.4,
     features: [
@@ -62,31 +66,85 @@ export const pricingPlans = [
   }
 ];
 
-export const calculatePrice = (plan, selectedTours, seats) => {
+export const calculatePrice = (plan, selectedTours, seats, isAnnual) => {
   const extraTours =
     selectedTours > plan.toursOptions[0]
       ? selectedTours - plan.toursOptions[0]
       : 0;
 
-  const price =
-    plan.basePrice +
-    extraTours * plan.extraTourPrice +
-    (seats - plan.seatsOptions[0]) * plan.extraSeatPrice;
+  const price = isAnnual
+    ? plan.annualPrice +
+      extraTours * plan.extraTourPrice +
+      (seats - plan.seatsOptions[0]) * plan.extraSeatPrice
+    : plan.basePrice +
+      extraTours * plan.extraTourPrice +
+      (seats - plan.seatsOptions[0]) * plan.extraSeatPrice;
 
   return price;
 };
 
-function PricingCard({ addPlanToOrder, orderSum }) {
+function PricingCard({
+  addPlanToOrder,
+  orderSum,
+  setNoCameraOption,
+  removePlan,
+  removeCameraFromOrder
+}) {
+  const getPlan = orderSum?.plan;
+  const selectedIndex = getPlan?.planIndex || null;
   const [tours, setTours] = useState(
-    pricingPlans.map((plan) => plan.toursOptions[0])
+    pricingPlans.map((plan, index) =>
+      selectedIndex !== null && index === selectedIndex
+        ? plan.tours
+        : plan.toursOptions[0]
+    )
   );
+
   const [seats, setSeats] = useState(
-    pricingPlans.map((plan) => plan.seatsOptions[0])
+    pricingPlans.map((plan, index) =>
+      selectedIndex !== null && index === selectedIndex
+        ? plan.seats
+        : plan.seatsOptions[0]
+    )
   );
-  const [prices, setPrices] = useState(
-    pricingPlans.map((plan) => plan.basePrice || 0)
+
+  const [prices, setPrices] = useState([]);
+  const [selectedPlanIndex, setSelectedPlanIndex] = useState(
+    orderSum?.plan?.planIndex || null
   );
-  const [selectedPlanIndex, setSelectedPlanIndex] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [navigateToCaptureServices, setNavigateToCaptureServices] =
+    useState(false);
+  const [isAnnual, setIsAnnual] = useState(getPlan?.annual || true);
+
+  useEffect(() => {
+    setPrices(
+      pricingPlans.map(
+        (plan, index) =>
+          calculatePrice(plan, tours[index], seats[index], isAnnual) || 0
+      )
+    );
+  }, [isAnnual, seats, tours]);
+
+  const handleToggle = (billingType) => {
+    setIsAnnual(billingType === "annual");
+  };
+
+  const handleNoCameraNeeded = () => {
+    setIsModalOpen(true);
+  };
+
+  // Your other code here
+
+  const closeModal = (selectedOption) => {
+    if (selectedOption) {
+      setNoCameraOption(selectedOption);
+      if (selectedOption === "I plan to hire someone to capture for me") {
+        setNavigateToCaptureServices(true);
+      }
+    }
+    setIsModalOpen(false);
+  };
 
   const handleSliderChange = (index, e) => {
     const newTours = [...tours];
@@ -96,7 +154,12 @@ function PricingCard({ addPlanToOrder, orderSum }) {
     newTours[index] = selectedTours;
 
     const plan = pricingPlans[index];
-    const newPrice = calculatePrice(plan, selectedTours, seats[index]);
+    const newPrice = calculatePrice(
+      plan,
+      selectedTours,
+      seats[index],
+      isAnnual
+    );
     newPrices[index] = newPrice;
 
     setTours(newTours);
@@ -111,16 +174,26 @@ function PricingCard({ addPlanToOrder, orderSum }) {
     newSeats[index] = selectedSeats;
 
     const plan = pricingPlans[index];
-    const newPrice = calculatePrice(plan, tours[index], selectedSeats);
+    const newPrice = calculatePrice(
+      plan,
+      tours[index],
+      selectedSeats,
+      isAnnual
+    );
     newPrices[index] = newPrice;
 
     setSeats(newSeats);
     setPrices(newPrices);
   };
 
-  const handleSelectPlan = (index) => {
-    setSelectedPlanIndex(index);
-    addPlanToOrder(index, tours[index], seats[index]);
+  const handleSelectPlan = (index, unselectPlan) => {
+    if (unselectPlan) {
+      setSelectedPlanIndex(null);
+      removePlan();
+    } else {
+      setSelectedPlanIndex(index);
+      addPlanToOrder(index, tours[index], seats[index], isAnnual);
+    }
   };
 
   const renderSliderLabels = (options) => {
@@ -132,8 +205,35 @@ function PricingCard({ addPlanToOrder, orderSum }) {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100 space-y-6 p-6">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+    <>
+      <OptionsTab />
+      <div className="flex items-center px-10 pt-10 bg-gray-100">
+        <div className="flex space-x-1 bg-gray-300 p-1 rounded-full">
+          <button
+            className={`px-4 py-2 rounded-full ${
+              isAnnual ? "bg-white" : "bg-transparent"
+            }`}
+            onClick={() => handleToggle("annual")}
+          >
+            Annual
+          </button>
+          <button
+            className={`px-4 py-2 rounded-full ${
+              !isAnnual ? "bg-red-500 text-white" : "bg-transparent"
+            }`}
+            onClick={() => handleToggle("monthly")}
+          >
+            Monthly
+          </button>
+        </div>
+        <span className="text-gray-600 mx-4">
+          {isAnnual ? "Save up to 16% with annual billing" : ""}
+        </span>
+      </div>
+      <div
+        className="grid grid-cols-1 md:grid-cols-4 gap-6 mx-8"
+        style={{ padding: "30px" }}
+      >
         {pricingPlans.map((plan, planIndex) => {
           const toursOptions = plan.toursOptions;
           const seatsOptions = plan.seatsOptions;
@@ -167,16 +267,27 @@ function PricingCard({ addPlanToOrder, orderSum }) {
                       ${updatedPlan.oldPrice}
                     </span>
                   )}
-                  {updatedPlan.basePrice !== null && (
-                    <>
-                      <span className="text-3xl font-extrabold text-gray-900 dark:text-white ml-2">
-                        ${prices[planIndex].toFixed(2)}
-                      </span>
-                      <span className="text-lg font-normal text-gray-500 dark:text-gray-400">
-                        /mo
-                      </span>
-                    </>
-                  )}
+                  {isAnnual
+                    ? updatedPlan.annualPrice !== null && (
+                        <>
+                          <span className="text-3xl font-extrabold text-gray-900 dark:text-white ml-2">
+                            ${prices[planIndex]?.toFixed(2)}
+                          </span>
+                          <span className="text-lg font-normal text-gray-500 dark:text-gray-400">
+                            /yr
+                          </span>
+                        </>
+                      )
+                    : updatedPlan.basePrice !== null && (
+                        <>
+                          <span className="text-3xl font-extrabold text-gray-900 dark:text-white ml-2">
+                            ${prices[planIndex].toFixed(2)}
+                          </span>
+                          <span className="text-lg font-normal text-gray-500 dark:text-gray-400">
+                            /mo
+                          </span>
+                        </>
+                      )}
                 </div>
                 <div className="mb-4">
                   <div className="text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">
@@ -193,14 +304,14 @@ function PricingCard({ addPlanToOrder, orderSum }) {
                   >
                     Number of Tours
                   </label>
-                  <input 
+                  <input
                     id={`tours-range-input-${planIndex}`}
                     type="range"
                     value={updatedPlan.tours}
                     min={toursOptions[0]}
                     max={toursOptions[toursOptions.length - 1]}
                     step="1"
-                    className="w-full h-4 appearance-none rounded-lg bg-gray-200" 
+                    className="w-full h-4 appearance-none rounded-lg bg-gray-200"
                     onChange={(e) => handleSliderChange(planIndex, e)}
                     list={`tickmarks-${planIndex}`}
                     style={{
@@ -215,7 +326,7 @@ function PricingCard({ addPlanToOrder, orderSum }) {
                             toursOptions[0])) *
                         100
                       }%, #E5E7EB 100%)`
-                    }} I am unable to find issue 
+                    }}
                   />
                   <datalist id={`tickmarks-${planIndex}`}>
                     {toursOptions.map((option, i) => (
@@ -224,7 +335,7 @@ function PricingCard({ addPlanToOrder, orderSum }) {
                   </datalist>
                   <div className="flex justify-between mt-2 text-sm text-gray-500 dark:text-gray-400">
                     {renderSliderLabels(toursOptions)}
-                  </div> 
+                  </div>
                 </div>
                 <ul className="space-y-2 mt-4">
                   {updatedPlan.features.map((feature, i) => (
@@ -246,7 +357,7 @@ function PricingCard({ addPlanToOrder, orderSum }) {
                             value={updatedPlan.seats}
                             onChange={(e) => handleSeatsChange(planIndex, e)}
                             className="ml-1 mr-1 p-1 border border-gray-300 rounded-lg text-sm font-medium"
-                          > 
+                          >
                             {seatsOptions.map((option, i) => (
                               <option key={i} value={option}>
                                 {option} seats
@@ -262,18 +373,26 @@ function PricingCard({ addPlanToOrder, orderSum }) {
               </div>
               <button
                 type="button"
-                onClick={() => handleSelectPlan(planIndex)}
+                onClick={() =>
+                  handleSelectPlan(planIndex, selectedPlanIndex === planIndex)
+                }
                 className={`w-full mt-4 px-5 py-2.5 text-lg font-medium text-white rounded-lg focus:ring-4 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 focus:ring-blue-200 dark:focus:ring-blue-900`}
               >
-                {selectedPlanIndex === planIndex ? "Selected" : "Choose plan"}
+                {selectedPlanIndex === planIndex ? "Unselect" : "Choose plan"}
               </button>
             </div>
           );
         })}
-        <OrderSummary orderSum={orderSum} />
+        <OrderSummary
+          orderSum={orderSum}
+          removeCameraFromOrder={removeCameraFromOrder}
+          navigateToCaptureServices={() => setNavigateToCaptureServices(true)}
+          handleNoCameraNeeded={() => handleNoCameraNeeded()}
+          isAnnual={isAnnual}
+        />
+        {isModalOpen && <NoCameraModal closeModal={closeModal} />}
       </div>
-      <ComparisonDetails /> 
-    </div>
+    </>
   );
 }
 

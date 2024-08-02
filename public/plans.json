@@ -1,0 +1,96 @@
+[
+    {
+        "name": "Free",
+        "price": "0.00",
+        "annualPrice": "0.00",
+        "billingPeriod": "mo",
+        "tours": "1 Tour",
+        "features": [
+            "1 Active Space",
+            "2 Users",
+            "Basic features"
+        ],
+        "buttonText": "Get Started Free",
+        "link": "https://app.cloudpano.com/signup"
+    },
+    {
+        "name": "Pro",
+        "price": "19.00",
+        "annualPrice": "189.00",
+        "billingPeriod": "mo",
+        "tours": "3 Tours",
+        "features": [
+            "Pro plan includes 1 seat at $19",
+            "Extra seat cost $19",
+            "3 active tours, $2 extra for each up to 10 tours",
+            "Three Published Projects",
+            "Unlimited scenes and photos per project",
+            "Scene types like 360 photos, 360 video, 2D images",
+            "Access to a limited portfolio of demo tours",
+            "Share, embed, and display projects anywhere"
+        ],
+        "buttonText": "Choose plan",
+        "link": "/pricing"
+    },
+    {
+        "name": "Pro-Plus",
+        "price": "49.00",
+        "annualPrice": "549.00",
+        "billingPeriod": "mo",
+        "tours": "10 Tours",
+        "features": [
+            "Pro Plus plan includes 2 seats at $49",
+            "Extra seats cost $29",
+            "10 active tours, then $1.6 each up to 30 tours",
+            "Unlimited Published Projects",
+            "Whitelabel / Bring your own URL",
+            "Team Collaboration",
+            "Tour Privacy Settings",
+            "CloudPano Live in-tour Video Chat",
+            "Complete access to all features",
+            "Google Street View Uploading"
+        ],
+        "buttonText": "Choose plan",
+        "link": "/pricing",
+        "mostPopular": true
+    },
+    {
+        "name": "Business",
+        "price": "197.00",
+        "annualPrice": "2169.00",
+        "billingPeriod": "mo",
+        "tours": "30 Tours",
+        "features": [
+            "Business plan includes 5 seats at $197",
+            "Extra seats cost $29",
+            "30 active tours, up to 150 at $1.40 each",
+            "Dedicated Account Manager",
+            "Team Training and Onboarding",
+            "Multiple Seats Discount",
+            "On Location 360° Photography"
+        ],
+        "buttonText": "Choose plan",
+        "link": "/pricing"
+    },
+    {
+        "name": "Enterprise",
+        "price": "Contact sales",
+        "annualPrice": "Contact sales",
+        "tours": "",
+        "features": [
+            "Custom Active Spaces",
+            "Custom Users",
+            "All Business features, plus:",
+            "SAML Single Sign-On for scalable user access",
+            "Volume discount pricing for Schematic Floor Plans and MatterPak files",
+            "5 TB attachment data for large team collaboration",
+            "Access to robust APIs/SDKs for large-scale automation & integrations",
+            "Centralized account admin with audit logs and enterprise reporting",
+            "Capture Services Technicians to scan your Spaces—in 700 cities",
+            "Access to customer success manager & enterprise-level tech support",
+            "                                                             hd     "
+        ],
+        "buttonText": "Contact Sales",
+        "link": "/enterprise"
+    }
+]
