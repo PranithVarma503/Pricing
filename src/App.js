@@ -39,11 +39,13 @@ function App() {
   };
 
   const addCaptureServiceToOrder = (service) => {
+    console.log("Passing addCaptureServiceToOrder:", addCaptureServiceToOrder);
     setOrderSummary((prevSummary) => ({
       ...prevSummary,
-      captureServices: service
+      CaptureServices: service
     }));
   };
+  
 
   const removeCameraFromOrder = (cameraId) => {
     setOrderSummary((prevOrderSummary) => ({

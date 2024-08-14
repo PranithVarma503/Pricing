@@ -134,8 +134,6 @@ function PricingCard({
     setIsModalOpen(true);
   };
 
-  // Your other code here
-
   const closeModal = (selectedOption) => {
     if (selectedOption) {
       setNoCameraOption(selectedOption);
