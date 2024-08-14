@@ -95,7 +95,7 @@ export const ComparisonDetails = () => {
       "Business": "394",
       "Enterprise": "$100,000"
     }
-  ]
+  ];
 
   const renderIcon = (value) => {
     if (value.includes('Included') || value.includes('Call us') || value.includes('Included!')) {
@@ -112,34 +112,34 @@ export const ComparisonDetails = () => {
 
   return (
     <div className="mt-10 px-4 sm:px-6 lg:px-8">
-      <h2 className="text-3xl font-bold mb-6 text-center">Comparison Table</h2>
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white dark:bg-gray-800">
-          <thead className="bg-gray-100 dark:bg-gray-700">
+      <h2 className="text-4xl font-extrabold mb-8 text-center text-gray-900 dark:text-white">Compare All Features</h2>
+      <div className="overflow-x-auto shadow-md rounded-lg border border-gray-200 dark:border-gray-700">
+        <table className="min-w-full bg-white dark:bg-gray-800 rounded-lg">
+          <thead className="bg-gray-50 dark:bg-gray-700">
             <tr>
-              <th className="py-4 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Feature</th>
-              <th className="py-4 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pro</th>
-              <th className="py-4 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pro Plus</th>
-              <th className="py-4 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Business</th>
-              <th className="py-4 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Enterprise</th>
+              <th className="py-4 px-6 text-left text-sm font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">Feature</th>
+              <th className="py-4 px-6 text-center text-sm font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">Pro</th>
+              <th className="py-4 px-6 text-center text-sm font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">Pro Plus</th>
+              <th className="py-4 px-6 text-center text-sm font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">Business</th>
+              <th className="py-4 px-6 text-center text-sm font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">Enterprise</th>
             </tr>
           </thead>
           <tbody className="bg-white dark:bg-gray-800">
             {pricingComparisionData?.map((data, index) => (
-              <tr key={index} className={index % 2 === 0 ? "bg-gray-50 dark:bg-gray-700" : ""}>
-                <td className="py-4 px-6 border-b border-gray-200 dark:border-gray-700 flex items-center">
+              <tr key={index} className={`border-b dark:border-gray-700 ${index % 2 === 0 ? "bg-gray-50 dark:bg-gray-700" : "bg-white dark:bg-gray-800"}`}>
+                <td className="py-4 px-6 text-left text-sm font-medium text-gray-800 dark:text-gray-300 flex items-center">
                   {data.feature}
                   <FaInfoCircle className="ml-2 text-gray-400" />
                 </td>
-                <td className="py-4 px-6 border-b border-gray-200 dark:border-gray-700 text-center">{renderIcon(data.Pro)}</td>
-                <td className="py-4 px-6 border-b border-gray-200 dark:border-gray-700 text-center">{renderIcon(data['Pro Plus'])}</td>
-                <td className="py-4 px-6 border-b border-gray-200 dark:border-gray-700 text-center">{renderIcon(data.Business)}</td>
-                <td className="py-4 px-6 border-b border-gray-200 dark:border-gray-700 text-center">{renderIcon(data.Enterprise)}</td>
+                <td className="py-4 px-6 text-center text-sm font-medium text-gray-800 dark:text-gray-300">{renderIcon(data.Pro)}</td>
+                <td className="py-4 px-6 text-center text-sm font-medium text-gray-800 dark:text-gray-300">{renderIcon(data['Pro Plus'])}</td>
+                <td className="py-4 px-6 text-center text-sm font-medium text-gray-800 dark:text-gray-300">{renderIcon(data.Business)}</td>
+                <td className="py-4 px-6 text-center text-sm font-medium text-gray-800 dark:text-gray-300">{renderIcon(data.Enterprise)}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
     </div>
-  )
-}
+  );
+};

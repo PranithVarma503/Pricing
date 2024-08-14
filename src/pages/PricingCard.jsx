@@ -134,6 +134,8 @@ function PricingCard({
     setIsModalOpen(true);
   };
 
+  // Your other code here
+
   const closeModal = (selectedOption) => {
     if (selectedOption) {
       setNoCameraOption(selectedOption);
@@ -205,33 +207,42 @@ function PricingCard({
   return (
     <>
       <OptionsTab />
-      <div className="flex items-center px-10 pt-10 bg-gray-100">
-        <div className="flex space-x-1 bg-gray-300 p-1 rounded-full">
-          <button
-            className={`px-4 py-2 rounded-full ${
-              isAnnual ? "bg-white" : "bg-transparent"
-            }`}
-            onClick={() => handleToggle("annual")}
-          >
-            Annual
-          </button>
-          <button
-            className={`px-4 py-2 rounded-full ${
-              !isAnnual ? "bg-red-500 text-white" : "bg-transparent"
-            }`}
-            onClick={() => handleToggle("monthly")}
-          >
-            Monthly
-          </button>
-        </div>
-        <span className="text-gray-600 mx-4">
-          {isAnnual ? "Save up to 16% with annual billing" : ""}
-        </span>
-      </div>
-      <div
-        className="grid grid-cols-1 md:grid-cols-4 gap-6 mx-8"
-        style={{ padding: "30px" }}
-      >
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", padding: "2rem 0",marginTop: "-2rem"  }}>
+  <div style={{ display: "flex", justifyContent: "center", borderRadius: "9999px", padding: "0.25rem" }}>
+    <button
+      style={{
+        padding: "0.5rem 1rem",
+        borderRadius: "9999px",
+        backgroundColor: isAnnual ? "white" : "transparent",
+        border: isAnnual ? "1px solid #ccc" : "none",
+      }}
+      onClick={() => handleToggle("annual")}
+    >
+      Annual
+    </button>
+    <button
+      style={{
+        padding: "0.5rem 1rem",
+        borderRadius: "9999px",
+        backgroundColor: !isAnnual ? "#ef4444" : "transparent",
+        color: !isAnnual ? "white" : "inherit",
+        border: !isAnnual ? "1px solid #ef4444" : "none",
+      }}
+      onClick={() => handleToggle("monthly")}
+    >
+      Monthly
+    </button>
+  </div>
+  {isAnnual && (
+    <span style={{ color: "#4b5563", marginLeft: "1rem" }}>
+      Save up to 16% with annual billing
+    </span>
+  )}
+</div>
+<div
+  className="grid grid-cols-1 md:grid-cols-4 gap-6 mx-8"
+  style={{ padding: "30px" }}
+>
         {pricingPlans.map((plan, planIndex) => {
           const toursOptions = plan.toursOptions;
           const seatsOptions = plan.seatsOptions;
@@ -374,7 +385,7 @@ function PricingCard({
                 onClick={() =>
                   handleSelectPlan(planIndex, selectedPlanIndex === planIndex)
                 }
-                className={`w-full mt-4 px-5 py-2.5 text-lg font-medium text-white rounded-lg focus:ring-4 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 focus:ring-blue-200 dark:focus:ring-blue-900`}
+                className={`w-full mt-4 px-5 py-2.5 text-lg font-medium text-white rounded-lg bg-[#2E3641] hover:bg-[#212730] focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900`}
               >
                 {selectedPlanIndex === planIndex ? "Unselect" : "Choose plan"}
               </button>

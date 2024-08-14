@@ -5,15 +5,6 @@ body {
     padding: 0;
 }
 
-.navbar {
-    background: linear-gradient(to right, #4A90E2, #9013FE);
-    padding: 10px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 60px;
-}
-
 .logo img {
     height: 40px;
 }
@@ -182,4 +173,210 @@ ul li {
     content: '';
     display: block;
     width: 100
+}
+.pricing-container {
+    text-align: center;
+    padding: 2rem;
+}
+
+.billing-toggle-container {
+    margin-bottom: 2rem;
+}
+
+.billing-toggle {
+    display: flex;
+    justify-content: center;
+    border-radius: 9999px;
+    padding: 0.25rem;
+}
+
+.billing-button {
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.billing-button.active {
+    background-color: #ffffff;
+}
+
+.plan-selection-container {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.plan-card {
+    background-color: #ffffff;
+    border-radius: 0.5rem;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    width: 250px;
+    transition: transform 0.3s ease-in-out;
+    position: relative;
+}
+
+.plan-card:hover {
+    transform: scale(1.05);
+}
+
+.plan-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.most-popular {
+    background-color: #3b82f6;
+    color: #ffffff;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 9999px;
+    position: absolute;
+    top: -10px;
+    left: 10px;
+}
+
+.save-badge {
+    background-color: #9333ea;
+    color: #ffffff;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 9999px;
+    position: absolute;
+    top: -10px;
+    right: 10px;
+}
+
+.price {
+    font-size: 2rem;
+    margin: 1rem 0;
+}
+
+.choose-button {
+    background-color: #3b82f6;
+    color: #ffffff;
+    padding: 0.75rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    width: 100%;
+}
+
+.features-list {
+    list-style: none;
+    padding: 0;
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    margin: 0.5rem 0;
+    font-weight: 500;
+}
+
+.check-icon {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    color: #3b82f6;
+    margin-right: 0.5rem;
+}
+.camera-page-container {
+    padding: 2rem 0;
+    background-color: #f9fafb;
+}
+
+.camera-selection-container {
+    display: flex;
+    justify-content: space-around;
+    gap: 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-wrap: wrap; /* Ensure cards wrap if screen is smaller */
+}
+
+.camera-card {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 2rem;
+    width: 280px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+    position: relative;
+    margin: 1rem 0; /* Add margin to space out cards vertically */
+}
+
+.camera-card:hover {
+    transform: scale(1.05);
+}
+
+.camera-image {
+    width: 100%;
+    height: auto;
+    margin-bottom: 1rem;
+    object-fit: cover; /* Ensures image aspect ratio is preserved */
+    border-radius: 5px;
+}
+
+.camera-name {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.camera-price {
+    font-size: 1.5rem;
+    color: #4a5568;
+    margin-bottom: 1.5rem;
+}
+
+.choose-button {
+    background-color: #2d3748;
+    color: #ffffff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    transition: background-color 0.3s ease-in-out;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+}
+
+.choose-button:hover {
+    background-color: #1a202c;
+}
+
+.no-camera-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.no-camera-card {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    width: 280px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.no-camera-button {
+    background-color: #e53e3e;
+    color: #ffffff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    transition: background-color 0.3s ease-in-out;
+    border: none;
+    width: 100%;
+    margin-top: 1rem;
+    cursor: pointer;
+}
+
+.no-camera-button:hover {
+    background-color: #c53030;
 }

@@ -16,7 +16,8 @@ const CaptureServicesPage = ({ addCaptureServiceToOrder, orderSum }) => {
       price: 10000,
       name: "Capture Services"
     };
-    // addCaptureServiceToOrder(service);
+    addCaptureServiceToOrder(service);
+    setIsModalOpen(false);
   };
 
   const handleOrderNowClick = () => {
@@ -30,8 +31,8 @@ const CaptureServicesPage = ({ addCaptureServiceToOrder, orderSum }) => {
   return (
     <div>
       <OptionsTab />
-      <div className="flex flex-col md:flex-row min-h-screen bg-gray-100 space-y-6 md:space-y-0 md:space-x-6 p-6">
-        <div className="max-w-lg mx-auto bg-white border border-gray-200 rounded-lg shadow-lg p-6">
+      <div className="flex flex-col md:flex-row min-h-screen space-y-6 md:space-y-0 md:space-x-6 p-6">
+        <div className="w-full md:w-3/4 bg-white border border-gray-200 rounded-lg shadow-lg p-6">
           <h3 className="text-2xl font-bold text-gray-800 mb-4">
             CloudPano Capture Services™
           </h3>
@@ -78,13 +79,11 @@ const CaptureServicesPage = ({ addCaptureServiceToOrder, orderSum }) => {
             </div>
           </div>
         </div>
-        <div className="w-full md:w-4/5 grid grid-cols-1 gap-6">
-          <div className="w-full md:w-1/3">
-            <OrderSummary
-              orderSum={orderSum}
-              isAnnual={orderSum?.plan?.annual || false}
-            />
-          </div>
+        <div className="w-full md:w-1/4">
+          <OrderSummary
+            orderSum={orderSum}
+            isAnnual={orderSum?.plan?.annual || false}
+          />
         </div>
       </div>
 

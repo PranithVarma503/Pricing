@@ -6,7 +6,6 @@ const NoCameraModal = ({ closeModal }) => {
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
   };
-console.log(selectedOption)
   const handleSubmit = () => {
     closeModal(selectedOption);
   };

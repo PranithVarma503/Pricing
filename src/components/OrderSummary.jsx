@@ -28,7 +28,7 @@ export const OrderSummary = ({
   removeCameraFromOrder,
   navigateToCaptureServices,
   handleNoCameraNeeded,
-  isAnnual = false
+  isAnnual = false,
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -49,6 +49,10 @@ export const OrderSummary = ({
       !noCameraOption
     ) {
       handleNoCameraNeeded();
+    } else if (location.pathname === "/cameras") {
+      navigate("/success-message"); // Navigate to the Order Success page
+    } else if(location.pathname === "/capture-services") {
+      navigate("/success-message");
     } else {
       navigate("/cameras");
     }

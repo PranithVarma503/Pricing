@@ -3,25 +3,26 @@ import { OrderSummary } from "../components/OrderSummary";
 import OptionsTab from "./OptionsTab";
 import NoCameraModal from "../components/NoCameraModal";
 import CaptureServicesPage from "./CaptureServicesPage";
+
 const cameraPlans = [
   {
     id: 1,
     name: "Insta360 X3 + Tripod",
     price: 449,
-    image: "/item1.jpeg"
+    image: "/item1.jpeg",
   },
   {
     id: 2,
     name: "Ricoh Theta X + Tripod",
     price: 799.95,
-    image: "/item2.jpeg"
+    image: "/item2.jpeg",
   },
   {
     id: 3,
     name: "Mobile Phone Rotator Kit",
     price: 1049,
-    image: "/cloudpano3.png"
-  }
+    image: "/cloudpano3.png",
+  },
 ];
 
 const CameraPage = ({
@@ -29,7 +30,7 @@ const CameraPage = ({
   orderSum,
   removeCameraFromOrder,
   setNoCameraOption,
-  addCaptureServiceToOrder
+  addCaptureServiceToOrder,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [navigateToCaptureServices, setNavigateToCaptureServices] =
@@ -67,67 +68,185 @@ const CameraPage = ({
   }
 
   return (
-    <div>
-      <OptionsTab />
-      <div className="flex flex-col md:flex-row min-h-screen bg-gray-100 space-y-6 md:space-y-0 md:space-x-6 p-6">
-        <div className="w-full md:w-4/5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div
+      style={{
+        position: "relative",
+        padding: "2rem",
+        marginTop: "-2rem",
+        minHeight: "100vh",
+        backgroundColor: "transparent", // Ensure this does not cover SVG
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+      }}
+    >
+      <div style={{ width: "70%" }}>
+        <OptionsTab />
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+            gap: "1rem",
+            width: "100%",
+          }}
+        >
           {cameraPlans.map((camera) => (
             <div
               key={camera.id}
-              className="max-w-xs w-full h-min p-6 bg-white border border-gray-200 rounded-lg shadow-lg transition-transform transform hover:scale-105 dark:bg-gray-800 dark:border-gray-700 flex flex-col justify-between"
+              style={{
+                padding: "1.5rem",
+                backgroundColor: "white",
+                border: "1px solid #ccc",
+                borderRadius: "0.5rem",
+                boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                transition: "transform 0.3s ease-in-out",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "scale(1.05)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "scale(1)";
+              }}
             >
               <div>
                 <img
                   src={camera.image}
                   alt={camera.name}
-                  className="w-full h-48 object-cover mb-4 rounded-lg transition-transform transform hover:scale-110"
+                  style={{
+                    width: "100%",
+                    height: "12rem",
+                    objectFit: "cover",
+                    marginBottom: "1rem",
+                    borderRadius: "0.5rem",
+                  }}
                 />
-                <h3 className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-2">
+                <h3
+                  style={{
+                    fontSize: "1.125rem",
+                    fontWeight: "600",
+                    color: "#1f2937",
+                    marginBottom: "0.5rem",
+                  }}
+                >
                   {camera.name}
                 </h3>
-                <div className="text-3xl font-extrabold text-gray-900 dark:text-white mb-4">
+                <div
+                  style={{
+                    fontSize: "1.25rem",
+                    fontWeight: "700",
+                    color: "#111827",
+                    marginBottom: "1rem",
+                  }}
+                >
                   ${camera.price.toFixed(2)}
                 </div>
               </div>
               {isInCart(camera) ? (
-                <div className="w-full mt-4 px-5 py-2.5 text-lg font-medium text-white rounded-lg bg-gray-500 text-center">
+                <div
+                  style={{
+                    width: "100%",
+                    padding: "0.75rem 1rem",
+                    fontSize: "1.125rem",
+                    fontWeight: "500",
+                    color: "white",
+                    backgroundColor: "#6b7280",
+                    textAlign: "center",
+                    borderRadius: "0.5rem",
+                  }}
+                >
                   Already in cart
                 </div>
               ) : (
                 <button
                   type="button"
                   onClick={() => addToCart(camera)}
-                  className="w-full mt-4 px-5 py-2.5 text-lg font-medium text-white rounded-lg focus:ring-4 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 focus:ring-blue-200 dark:focus:ring-blue-900 transition-colors"
+                  style={{
+                    width: "100%",
+                    padding: "0.75rem 1rem",
+                    fontSize: "1.125rem",
+                    fontWeight: "500",
+                    color: "white",
+                    backgroundColor: "#000",
+                    borderRadius: "0.5rem",
+                    transition: "background-color 0.3s ease-in-out",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = "#4b5563";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = "#000";
+                  }}
                 >
                   Add to cart
                 </button>
               )}
             </div>
           ))}
-          <div className="p-6 bg-white border border-gray-200 rounded-lg shadow-lg transition-transform transform hover:scale-105 dark:bg-gray-800 dark:border-gray-700 flex flex-col justify-around">
-            <p className="italic text-2xl">
-              I already have a camera <span className="not-italic">or</span> I
-              plan to hire someone to capture for me.
-            </p>
-            <button
-              type="button"
-              onClick={handleNoCameraNeeded}
-              className="w-full px-5 py-5 text-lg font-medium text-white rounded-lg bg-red-500 hover:bg-red-600 transition-colors"
-            >
-              No Camera Needed
-            </button>
-          </div>
         </div>
-        <div className="w-full md:w-1/5">
-          <OrderSummary
-            orderSum={orderSum}
-            removeCameraFromOrder={removeCameraFromOrder}
-            navigateToCaptureServices={() => setNavigateToCaptureServices(true)}
-            handleNoCameraNeeded={() => handleNoCameraNeeded()}
-            isAnnual={orderSum?.plan?.annual || false}
-          />
+
+        {/* No Camera Needed Card */}
+        <div
+          style={{
+            marginTop: "2rem",
+            padding: "1.5rem",
+            backgroundColor: "white",
+            border: "1px solid #ccc",
+            borderRadius: "0.5rem",
+            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+          }}
+        >
+          <p
+            style={{
+              fontStyle: "italic",
+              fontSize: "1.125rem",
+              color: "#4b5563",
+              marginBottom: "1rem",
+            }}
+          >
+            I already have a camera <span style={{ fontStyle: "normal" }}>or</span> I plan to hire someone to capture for me.
+          </p>
+          <button
+            type="button"
+            onClick={handleNoCameraNeeded}
+            style={{
+              width: "100%",
+              padding: "1rem",
+              fontSize: "1.125rem",
+              fontWeight: "500",
+              color: "white",
+              backgroundColor: "#ef4444",
+              borderRadius: "0.5rem",
+              transition: "background-color 0.3s ease-in-out",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = "#dc2626";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = "#ef4444";
+            }}
+          >
+            No Camera Needed
+          </button>
         </div>
       </div>
+
+      {/* Order Summary */}
+      <div style={{ width: "30%", marginLeft: "1rem" }}>
+        <OrderSummary
+          orderSum={orderSum}
+          removeCameraFromOrder={removeCameraFromOrder}
+          navigateToCaptureServices={() => setNavigateToCaptureServices(true)}
+          handleNoCameraNeeded={() => handleNoCameraNeeded()}
+          isAnnual={orderSum?.plan?.annual || false}
+        />
+      </div>
+
       {isModalOpen && <NoCameraModal closeModal={closeModal} />}
     </div>
   );

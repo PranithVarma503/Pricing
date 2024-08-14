@@ -36,40 +36,4 @@
     transform: rotate(360deg);
   }
 }
-.navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: linear-gradient(to right, #00c6ff, #0072ff);
-  padding: 10px 20px;
-}
-.navbar .logo {
-  display: flex;
-  align-items: center;
-}
-.navbar img {
-  height: 40px;
-  margin-right: 10px;
-}
-.navbar .menu {
-  display: flex;
-  align-items: center;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.navbar .menu li {
-  margin: 0 15px;
-}
-.navbar .menu li a {
-  color: white;
-  text-decoration: none;
-  font-size: 16px;
-}
-.navbar .login {
-  background-color: #5c6bc0;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 5px;
-  text-decoration: none;
-}
+
